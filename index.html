@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio - Salwa Jasmine Hidayat</title>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #030712;
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* 1. LOADING SCREEN */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #030712;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        #loader h1 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+        }
+
+        .loading-bar {
+            width: 260px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: #3b82f6;
+            box-shadow: 0 0 12px #3b82f6;
+            transition: width 0.1s ease;
+        }
+
+        #loading-text {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        /* 2. FLOATING NAVBAR */
+        header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .nav-logo {
+            width: 32px;
+            height: 32px;
+            background: #1e293b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 10px;
+        }
+
+        .nav-menu a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 6px 14px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* SECTIONS & CONTAINER */
+        section {
+            position: relative;
+            z-index: 10;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 110px 20px 50px;
+        }
+
+        .section-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #3b82f6;
+            display: block;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* 3. HERO SECTION */
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 35px;
+            align-items: center;
+            padding-top: 20px;
+        }
+
+        .hero-title {
+            font-size: 3.2rem;
+            line-height: 1.15;
+            font-weight: 800;
+            background: linear-gradient(to right, #ffffff, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            color: #3b82f6;
+            font-size: 1.1rem;
+            margin: 12px 0;
+            font-weight: 600;
+        }
+
+        .hero-desc {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 0 15px rgba(37,99,235,0.4);
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            box-shadow: 0 0 25px rgba(37,99,235,0.7);
+        }
+
+        .btn-secondary {
+            border: 1px solid #334155;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.3s;
+            background: rgba(17, 24, 39, 0.6);
+        }
+
+        .btn-secondary:hover {
+            background: #1e293b;
+        }
+
+        /* SPOTIFY MUSIC WIDGET */
+        .spotify-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .spotify-header {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .music-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .music-cover {
+            width: 65px;
+            height: 65px;
+            border-radius: 10px;
+            background: #1f2937;
+            object-fit: cover;
+        }
+
+        .playlist-track {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+
+        /* 4. ABOUT ME SECTION */
+        .about-hero-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .about-left h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #3b82f6;
+            line-height: 1.1;
+        }
+
+        .about-left h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .about-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .about-center img {
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.4));
+        }
+
+        .about-right p {
+            color: #9ca3af;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        /* DATA DIRI, PENDIDIKAN & STATISTIK */
+        .data-mahasiswa-box {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .data-item span {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            display: block;
+        }
+
+        .data-item strong {
+            font-size: 0.95rem;
+            color: #ffffff;
+        }
+
+        .edu-exp-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .info-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 18px;
+        }
+
+        .info-card h4 {
+            color: #3b82f6;
+            margin-bottom: 12px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 18px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .stat-box h3 {
+            font-size: 1.8rem;
+            color: #3b82f6;
+        }
+
+        .stat-box p {
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        /* 5. WHAT I CAN DO SECTION */
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .cap-box {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .cap-box h3 {
+            color: #3b82f6;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .cap-list {
+            list-style: none;
+        }
+
+        .cap-list li {
+            font-size: 0.9rem;
+            color: #d1d5db;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tools-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tool-badge {
+            background: rgba(31, 41, 55, 0.7);
+            border: 1px solid #374151;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #e5e7eb;
+        }
+
+        /* 6. ACHIEVEMENT SECTION */
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .achievement-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .media-container {
+            width: 100%;
+            height: 170px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #1f2937;
+            margin-bottom: 15px;
+            border: 1px solid #374151;
+        }
+
+        .media-container img, .media-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .achieve-tag {
+            font-size: 0.75rem;
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.15);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        /* 7. CONTACT & COMMENT SECTION */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .form-box {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(31, 41, 55, 0.7);
+            border: 1px solid #374151;
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        /* PERBAIKAN STYLES KONTAK CARD (MATCH REFERENSI GAMBAR) */
+        .contact-links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .contact-card {
+            background: rgba(31, 41, 55, 0.7);
+            border: 1px solid #374151;
+            padding: 14px 18px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-card:hover {
+            background: rgba(37, 99, 235, 0.2);
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .contact-card-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+        }
+
+        .contact-card-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #9ca3af;
+            margin-bottom: 2px;
+        }
+
+        .contact-value {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #ffffff;
+            word-break: break-all;
+        }
+
+        .comment-item {
+            background: rgba(31, 41, 55, 0.7);
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+        }
+
+        footer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.8rem;
+            margin-top: 50px;
+            padding-bottom: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .about-hero-layout {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-container, .edu-exp-grid, .capabilities-grid, .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero-title {
+                font-size: 2.3rem;
+            }
+            .nav-menu {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- 1. LOADING SCREEN -->
+    <div id="loader">
+        <h1>Welcome To My<br><span style="color:#3b82f6;">Portofolio Website</span></h1>
+        <div class="loading-bar">
+            <div class="loading-progress" id="progress"></div>
+        </div>
+        <div id="loading-text">Loading... 0%</div>
+    </div>
+
+    <!-- 2. FLOATING NAVBAR -->
+    <header>
+        <div class="nav-logo">SJ</div>
+        <ul class="nav-menu">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#what-i-can-do">What I Can Do</a></li>
+            <li><a href="#achievement">Achievement</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </header>
+
+    <!-- 3. HERO SECTION -->
+    <section id="home">
+        <div class="hero-container">
+            <div>
+                <h1 class="hero-title">Scientific Riset &<br>Digital Developer</h1>
+                <div class="hero-subtitle">IT Student & Researcher</div>
+                <p class="hero-desc">
+                    Berawal dari ketertarikan pada riset ilmiah dan desain visual, kini saya sedang berfokus mempelajari pengembangan aplikasi web dan teknologi digital secara berkelanjutan.
+                </p>
+                <div class="hero-btns">
+                    <a href="#achievement" class="btn-primary">Lihat Karya ↗</a>
+                    <a href="CV_Salwa.pdf" download class="btn-secondary">Download CV 📄</a>
+                </div>
+            </div>
+
+            <div class="spotify-card">
+                <div class="spotify-header">
+                    <i data-lucide="music" style="width: 16px;"></i>
+                    <span>Daily Rotation</span>
+                </div>
+                <div class="music-info">
+                    <img src="portofolio/Screenshot_2026-10-12_223748-removebg-preview.png" alt="Cover" class="music-cover">
+                    <div>
+                        <h4 style="color:#fff; font-size: 0.95rem;">Focus Study Vibes</h4>
+                        <p style="font-size: 0.8rem; color:#9ca3af;">Instrumental Coding & Riset</p>
+                        <span style="font-size:0.75rem; color:#10b981;">Playing on Spotify</span>
+                    </div>
+                </div>
+                <div class="playlist-track">
+                    <span>1. Research & Analysis Flow</span>
+                    <span>03:45</span>
+                </div>
+                <div class="playlist-track">
+                    <span>2. Web Coding Session</span>
+                    <span>04:12</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ABOUT ME SECTION -->
+    <section id="about">
+        <div class="about-hero-layout">
+            <div class="about-left">
+                <h2>Hi, I'm</h2>
+                <h1>Salwa Jasmine Hidayat</h1>
+                <a href="CV_Salwa.pdf" download class="btn-primary">
+                    <i data-lucide="file-text" style="width:16px;"></i> View Resume
+                </a>
+            </div>
+
+            <div class="about-center">
+                <img src="portofolio/Screenshot_2026-10-12_223255-removebg-preview.png" onError="this.src='https://via.placeholder.com/320x420/000000/3b82f6?text=Foto+PNG+Salwa'" alt="Foto Profil Salwa">
+            </div>
+
+            <div class="about-right">
+                <p>
+                    Sebagai mahasiswa S1 Pendidikan Teknologi Informasi Universitas Negeri Surabaya, saya berfokus pada pengembangan riset ilmiah, desain visual, serta eksplorasi teknologi web fungsional yang memberikan dampak positif.
+                </p>
+                <a href="#achievement" class="btn-secondary">
+                    &lt;&gt; View Projects
+                </a>
+            </div>
+        </div>
+
+        <div class="data-mahasiswa-box">
+            <div class="data-item">
+                <span>Nama Lengkap</span>
+                <strong>Salwa Jasmine Hidayat</strong>
+            </div>
+            <div class="data-item">
+                <span>NIM</span>
+                <strong>26050974059</strong>
+            </div>
+            <div class="data-item">
+                <span>Program Studi</span>
+                <strong>S1 Pendidikan Teknologi Informasi</strong>
+            </div>
+            <div class="data-item">
+                <span>Aktivitas Saat Ini</span>
+                <strong>Riset, KTI & Web Dev</strong>
+            </div>
+        </div>
+
+        <div class="edu-exp-grid">
+            <div class="info-card">
+                <h4><i data-lucide="graduation-cap"></i> Pendidikan</h4>
+                <div style="margin-bottom: 12px;">
+                    <strong>Universitas Negeri Surabaya</strong>
+                    <p style="font-size: 0.8rem; color:#9ca3af;">S1 Pendidikan Teknologi Informasi (2026 – 2030)</p>
+                </div>
+                <div>
+                    <strong>MA Model Zainul Hasan Genggong</strong>
+                    <p style="font-size: 0.8rem; color:#9ca3af;">MA Acceleration Program (2024 – 2026)</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h4><i data-lucide="briefcase"></i> Pengalaman & Organisasi</h4>
+                <div style="margin-bottom: 12px;">
+                    <strong>Tim Kreatif Masa SMA</strong>
+                    <p style="font-size: 0.8rem; color:#9ca3af;">Mengelola desain visual, poster, dan media komunikasi.</p>
+                </div>
+                <div>
+                    <strong>Peneliti Muda (KTI)</strong>
+                    <p style="font-size: 0.8rem; color:#9ca3af;">Melakukan riset ilmiah, pembuatan paper, dan presentasi kompetisi.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-box">
+                <h3>3</h3>
+                <p>JUARA KTI & POSTER</p>
+            </div>
+            <div class="stat-box">
+                <h3>2</h3>
+                <p>PROYEK RISET</p>
+            </div>
+            <div class="stat-box">
+                <h3>2 Thn</h3>
+                <p>PROGRAM AKSELERASI</p>
+            </div>
+            <div class="stat-box">
+                <h3>6</h3>
+                <p>TOOLS DIPELAJARI</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. WHAT I CAN DO SECTION -->
+    <section id="what-i-can-do">
+        <span class="section-tag">Kemampuan & Keahlian</span>
+        <h2 class="section-title">What I Can Do</h2>
+
+        <div class="capabilities-grid">
+            <div class="cap-box">
+                <h3><i data-lucide="check-circle-2"></i> Skill & Capabilities</h3>
+                <ul class="cap-list">
+                    <li><i data-lucide="chevron-right" style="color:#3b82f6; width:16px;"></i> Scientific Research & Paper Writing</li>
+                    <li><i data-lucide="chevron-right" style="color:#3b82f6; width:16px;"></i> Poster Design & Visual Communication</li>
+                    <li><i data-lucide="chevron-right" style="color:#3b82f6; width:16px;"></i> Public Speaking & Project Presentation</li>
+                    <li><i data-lucide="chevron-right" style="color:#3b82f6; width:16px;"></i> Basic Web Development (Proses Belajar)</li>
+                </ul>
+            </div>
+
+            <div class="cap-box">
+                <h3><i data-lucide="wrench"></i> Tools Dikuasai / Dipelajari</h3>
+                <div class="tools-flex">
+                    <span class="tool-badge">HTML5 (Basic)</span>
+                    <span class="tool-badge">CSS3 (Basic)</span>
+                    <span class="tool-badge">JavaScript (Basic)</span>
+                    <span class="tool-badge">Tailwind CSS (Learning)</span>
+                    <span class="tool-badge">VS Code</span>
+                    <span class="tool-badge">Figma</span>
+                    <span class="tool-badge">Canva</span>
+                    <span class="tool-badge">Git</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. ACHIEVEMENT SECTION -->
+    <section id="achievement">
+        <span class="section-tag">Pencapaian & Dokumentasi</span>
+        <h2 class="section-title">Achievement</h2>
+
+        <div class="achievement-grid">
+            <!-- SERTIFIKAT 1: JUARA 1 FULL PAPER -->
+            <div class="achievement-card">
+                <div>
+                    <div class="media-container">
+                        <img src="portofolio/sertif-fullpaper.png" alt="Sertifikat Juara 1 Full Paper LKTI">
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span class="achieve-tag">Juara 1 Full Paper</span>
+                        <span style="font-size:0.75rem; color:#9ca3af;">2025</span>
+                    </div>
+                    <h3 style="font-size:1.05rem; margin-bottom:4px;">LINOVT-ORMAWA 2025 Tingkat Nasional</h3>
+                    <p style="font-size:0.8rem; color:#3b82f6; margin-bottom:8px;">Penyelenggara: BEM FT Universitas Negeri Malang (UM)</p>
+                    <p style="font-size:0.82rem; color:#9ca3af;">Meraih Juara 1 Full Paper Kategori KTI - Pelajar bersama Tim BANANA MAM pada Lomba Inovasi Teknologi Cerdas Organisasi Mahasiswa.</p>
+                </div>
+            </div>
+
+            <!-- SERTIFIKAT 2: JUARA 1 DESAIN POSTER -->
+            <div class="achievement-card">
+                <div>
+                    <div class="media-container">
+                        <img src="portofolio/sertf-poster.png" alt="Sertifikat Juara 1 Desain Poster">
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span class="achieve-tag">Juara 1 Desain Poster</span>
+                        <span style="font-size:0.75rem; color:#9ca3af;">2025</span>
+                    </div>
+                    <h3 style="font-size:1.05rem; margin-bottom:4px;">LINOVT-ORMAWA 2025 Tingkat Nasional</h3>
+                    <p style="font-size:0.8rem; color:#3b82f6; margin-bottom:8px;">Penyelenggara: BEM FT Universitas Negeri Malang (UM)</p>
+                    <p style="font-size:0.82rem; color:#9ca3af;">Meraih Juara 1 Desain Poster Kategori Poster Pelajar dalam ajang Lomba Inovasi Teknologi Cerdas Organisasi Mahasiswa.</p>
+                </div>
+            </div>
+
+            <!-- SERTIFIKAT 3: JUARA 1 PRESENTASI -->
+            <div class="achievement-card">
+                <div>
+                    <div class="media-container">
+                        <img src="portofolio/sertif-present.png" alt="Sertifikat Juara 1 Presentasi">
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span class="achieve-tag">Juara 1 Presentasi</span>
+                        <span style="font-size:0.75rem; color:#9ca3af;">2025</span>
+                    </div>
+                    <h3 style="font-size:1.05rem; margin-bottom:4px;">LINOVT-ORMAWA 2025 Tingkat Nasional</h3>
+                    <p style="font-size:0.8rem; color:#3b82f6; margin-bottom:8px;">Penyelenggara: BEM FT Universitas Negeri Malang (UM)</p>
+                    <p style="font-size:0.82rem; color:#9ca3af;">Meraih Juara 1 Presentasi Kategori Poster Pelajar dalam ajang Lomba Inovasi Teknologi Cerdas Organisasi Mahasiswa.</p>
+                </div>
+            </div>
+
+            <!-- PROYEK RISET -->
+            <div class="achievement-card">
+                <div>
+                    <div class="media-container">
+                        <img src="portofolio/riset.png" alt="Riset Biosel">
+                    </div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span class="achieve-tag">Proyek Riset Sains</span>
+                        <span style="font-size:0.75rem; color:#9ca3af;">2024</span>
+                    </div>
+                    <h3 style="font-size:1.05rem; margin-bottom:4px;">Penelitian Biosel Microalga</h3>
+                    <p style="font-size:0.8rem; color:#3b82f6; margin-bottom:8px;">Penyelenggara: Tim Penelitian SMA</p>
+                    <p style="font-size:0.82rem; color:#9ca3af;">Riset eksperimen pembuatan biosel berbasis mikroalga sebagai bahan bakar sederhana.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. CONTACT & COMMENT SECTION -->
+    <section id="contact">
+        <span class="section-tag">Mari Terhubung</span>
+        <h2 class="section-title">Contact Me</h2>
+
+        <div class="contact-grid">
+            <div class="form-box">
+                <h3>Kirim Pesan ✉</h3>
+                <p style="font-size:0.8rem; color:#9ca3af; margin-bottom:15px;">Ada yang ingin didiskusikan atau diajak kolaborasi? Kirim pesan saja ya..</p>
+                <form onsubmit="event.preventDefault(); alert('Pesan berhasil terkirim!');">
+                    <div class="form-group">
+                        <label>Nama Anda</label>
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Anda</label>
+                        <input type="email" placeholder="Your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Pesan</label>
+                        <textarea rows="3" placeholder="Tuliskan pesan kamu..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width:100%; border:none; cursor:pointer; justify-content:center;">Kirim Pesan</button>
+                </form>
+            </div>
+
+            <div>
+                <!-- BAGIAN KONTAK YANG TELAH DIPERBAIKI SESUAI DESAIN GAMBAR -->
+                <div class="form-box" style="margin-bottom:20px;">
+                   <h3>Kontak & Akun Profesional</h3>
+                   <div class="contact-links-list">
+                     <!-- EMAIL CARD -->
+                    <a href="mailto:salwajasmine53@gmail.com" class="contact-card">
+                      <div class="contact-card-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect width="20" height="16" x="2" y="4" rx="2"/>
+                          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                        </svg>
+                      </div>
+                      <div class="contact-card-info">
+                        <span class="contact-label">EMAIL</span>
+                        <span class="contact-value">salwajasmine53@gmail.com</span>
+                     </div>
+                    </a>
+
+        <!-- GITHUB CARD -->
+        <a href="https://github.com/salwajasmine" target="_blank" class="contact-card">
+            <div class="contact-card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+            </div>
+            <div class="contact-card-info">
+                <span class="contact-label">GITHUB</span>
+                <span class="contact-value">github.com/salwajasmine</span>
+            </div>
+        </a>
+
+        <!-- LINKEDIN CARD -->
+        <a href="https://www.linkedin.com/in/salwa-hidayat-4470ab441?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="contact-card">
+            <div class="contact-card-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                </svg>
+            </div>
+            <div class="contact-card-info">
+                <span class="contact-label">LINKEDIN</span>
+                <span class="contact-value">linkedin.com/in/salwajasmine</span>
+            </div>
+        </a>
+    </div>
+</div>
+                <div class="form-box">
+                    <h3>Komentar 💬</h3>
+                    <form id="commentForm">
+                        <div class="form-group">
+                            <input type="text" id="commentName" placeholder="Nama kamu" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="commentText" rows="2" placeholder="Tulis komentar di sini..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-secondary" style="width:100%; cursor:pointer;">Kirim Komentar</button>
+                    </form>
+
+                    <div id="commentList">
+                        <div class="comment-item">
+                            <strong style="color:#3b82f6;">Teman Kuliah</strong>
+                            <p style="color:#aaa;">Keren banget riset KTI nya Salwa!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Salwa Jasmine Hidayat · NIM 26050974059. All rights reserved.</p>
+    </footer>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        // INISIALISASI LUCIDE ICONS
+        lucide.createIcons();
+
+        // SCRIPT BINTANG LOKAL BERGERAK
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        for (let i = 0; i < 150; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.5,
+                alpha: Math.random(),
+                speed: Math.random() * 0.05
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+
+        // SIMULASI LOADING SCREEN
+        let progress = 0;
+        const progressBar = document.getElementById('progress');
+        const progressText = document.getElementById('loading-text');
+        const loader = document.getElementById('loader');
+
+        const interval = setInterval(() => {
+            progress += 5;
+            if (progressBar && progressText) {
+                progressBar.style.width = progress + '%';
+                progressText.innerText = 'Loading... ' + progress + '%';
+            }
+            if (progress >= 100) {
+                clearInterval(interval);
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => {
+                        loader.style.display = 'none';
+                    }, 800);
+                }
+            }
+        }, 30);
+    </script>
+</body>
+</html>
